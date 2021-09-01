@@ -2,3 +2,5 @@
 *.iml
 *.project
 *.class
+backend-service/target/
+
