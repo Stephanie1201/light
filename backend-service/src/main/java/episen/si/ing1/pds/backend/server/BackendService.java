@@ -27,7 +27,6 @@ public class BackendService {
             maxConnectionValue = Integer.parseInt(commandLine.getOptionValue("maxConnection"));
         }
 
-
         serverLogger.info("BackendService is running (testMode={}), (maxConnection={}). ", inTestMode,maxConnectionValue); // permet de changer le comportement des arguments du service
     }
 
