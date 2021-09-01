@@ -11,8 +11,7 @@ public class BackendService {
         serverLogger.info("great : BackendService is running");
         final Options options = new Options(); // create options
         final Option testMode = Option.builder().longOpt("testMode").build(); // use longOpt to write --testMode in cmd
-        final Option maxConnection = Option.builder().longOpt("maxConnection").
-                hasArg().argName("maxConnection").build();
+        final Option maxConnection = Option.builder().longOpt("maxConnection").hasArg().argName("maxConnection").build();
         options.addOption(maxConnection);
         options.addOption(testMode);
 
