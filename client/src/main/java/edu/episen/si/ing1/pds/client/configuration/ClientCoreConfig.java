@@ -4,6 +4,7 @@ public class ClientCoreConfig {
     private int listenPort;
     private String ipAddress;
 
+    //configuration of listenPort and ip adress for client
     public ClientCoreConfig() {
     }
 
@@ -23,6 +24,7 @@ public class ClientCoreConfig {
         this.ipAddress = ipAddress;
     }
 
+    //print of the port an ipadress
     @Override
     public String toString() {
         return "ClientCoreConfig{" +
