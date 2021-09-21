@@ -10,10 +10,11 @@ import java.io.IOException;
 
 public class ClientConfig {
     private static final Logger logger = LoggerFactory.getLogger(ClientConfig.class.getName());
-    private static final String episenClientConfigEnVar="CLIENT_CONFIG";
+    private static final String episenClientConfigEnVar="CLIENT_CONFIGURATION";
     private String episenClientConfigFileLocation;
     private ClientCoreConfig config;
 
+    //call the variable "CLIENT-CONFIG" present to VM
     public ClientConfig() throws IOException{
         episenClientConfigFileLocation = System.getenv(episenClientConfigEnVar);
         logger.info("Config file = {}", episenClientConfigFileLocation);
