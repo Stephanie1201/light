@@ -44,7 +44,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>episen.si.ing1.pds.client.view.WelcomeFrame</mainClass>
+                            <mainClass>edu.episen.si.ing1.pds.client.view.WelcomeFrame</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
