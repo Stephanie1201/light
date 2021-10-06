@@ -26,13 +26,20 @@ public class client {
 
         boolean inTestMode = false;
         if (commandLine.hasOption("testMode")) {
-            inTestMode = true;
+            ClientRequest clientRequest = new ClientRequest(clientConfig);
+            clientRequest.startConnection();
+            clientRequest.stopConnection();
         }
         if (commandLine.hasOption("maxConnection")){
             maxConnectionV = Integer.parseInt(commandLine.getOptionValue("maxConnection"));
         }
-
         clientConfig = new ClientConfig();
+
+        /*if(inTestMode) {
+            ClientRequest clientRequest = new ClientRequest(clientConfig);
+            clientRequest.startConnection();
+            clientRequest.stopConnection();
+        }*/
         if (commandLine.hasOption("clientMode")){
             HomePageView hm = new HomePageView();
             hm.setVisible(true);
