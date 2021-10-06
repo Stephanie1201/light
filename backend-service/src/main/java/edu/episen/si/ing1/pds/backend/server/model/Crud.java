@@ -23,7 +23,7 @@ public class Crud {
             //l'objet de type statement va permettre d'effectuer les requetes et les mise à jour en BD
 
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM Student");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM student");
 
             while (resultSet.next()){
                 int id = resultSet.getInt(1);
@@ -73,9 +73,9 @@ public static String delete(String firstName, String lastName) {
         int numberLinesUpdated = 0;
         try {
             Statement statement = connection.createStatement();
-            numberLinesUpdated = statement.executeUpdate("UPDATE Student SET firstname= '" + newFirstName + "', lastname = '" + newLastName + "' WHERE firstname = '" + firstName + "' and lastname = '" + lastName + "'");
+            numberLinesUpdated = statement.executeUpdate("UPDATE student SET firstname= '" + newFirstName + "', lastname = '" + newLastName + "' WHERE firstname = '" + firstName + "' and lastname = '" + lastName + "'");
             s = "Result of the update request : " + numberLinesUpdated + " line(s) updated. ";
-            //System.out.println("Result of the update request : " + nbLinesUpdated + " line(s) updated");
+            System.out.println("Result of the update request : " + numberLinesUpdated + " line(s) updated");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
