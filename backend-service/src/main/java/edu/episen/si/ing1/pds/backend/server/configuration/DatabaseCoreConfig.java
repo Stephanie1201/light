@@ -4,6 +4,9 @@ package edu.episen.si.ing1.pds.backend.server.configuration;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonGetter;
 
+//I need to undestand what do this class
+// I will ask to Yohan
+//Cette class recupère les paramettres qui sont sur la variable d'environement de la VM et qui sont utiliser par Databaseconfig
 public class DatabaseCoreConfig {
 
     private String DRIVER_NAME;

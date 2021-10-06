@@ -6,13 +6,13 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 
 public class DataSource {
-private static JDBCConnectionPool jdbcConnectionPool;
+    private static JDBCConnectionPool jdbcConnectionPool;
     private static final Logger logger = LoggerFactory.getLogger(DataSource.class.getName());
-
     private static DataSource INSTANCE = new DataSource();
 
 //initialisation of jdbcConnectionPool object
     private DataSource(){
+
         jdbcConnectionPool = SingletonPool.Instance.getInstance();
     }
 
@@ -36,6 +36,7 @@ public synchronized boolean putConnection(Connection connection){
         return jdbcConnectionPool.addConnection(connection);
 }
 public void closePool(){
+
         jdbcConnectionPool.closeConnection(); //to close the connection
 }
 
@@ -44,8 +45,9 @@ public int getNumberConnection(){
         return jdbcConnectionPool.getSizeArrayConnection();
 }
 
-/*************/
+
 public JDBCConnectionPool getJdbcConnectionPool(){
+
         return jdbcConnectionPool;
 }
 
