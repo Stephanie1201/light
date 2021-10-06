@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.episen.si.ing1.pds.client.configuration.ClientConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,8 +15,8 @@ public class ClientRequest {
     private Socket clientSocket;
     private InputStream inputStream;
     private OutputStream outputStream;
-
     private static final Logger logger = LoggerFactory.getLogger(ClientRequest.class.getName());
+
     private static String clientDataFileLocation;
     private static String clientDataEnvVar = "CLIENT_DATA_JSON";
 
@@ -30,12 +29,14 @@ public class ClientRequest {
         outputStream = clientSocket.getOutputStream();
         inputStream = clientSocket.getInputStream();
         byte[] inputData;
+
         final ObjectMapper mapper = new ObjectMapper(new JsonFactory());
         Student mapJsonFile = mapper.readValue(new File(clientDataFileLocation), Student.class);
-
-        outputStream.write(mapper.writeValueAsBytes(mapJsonFile));
+        outputStream.write(mapper.writeValueAsBytes(mapJsonFile)); //envoie au format json
         logger.info(("Request submitted"));
+
         while (inputStream.available() == 0){}
+
         inputData = new byte[inputStream.available()];
         inputStream.read(inputData);
         String serverResponse = new String(inputData);

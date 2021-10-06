@@ -1,13 +1,11 @@
 package edu.episen.si.ing1.pds.backend.server;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.episen.si.ing1.pds.backend.server.pool.DataSource;
 import edu.episen.si.ing1.pds.backend.server.socket.ResquestSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.*;
 import java.net.Socket;
 import java.sql.Connection;
