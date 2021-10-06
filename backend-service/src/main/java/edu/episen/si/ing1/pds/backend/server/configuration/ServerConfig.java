@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class ServerConfig {
     private static final Logger logger = LoggerFactory.getLogger(ServerConfig.class.getName());
-    private static final String episenServerConfigEnvVar = "EPISEN_SRV_CONFIG"; //environement variable name
+    private static final String episenServerConfigEnvVar = "EPISEN_SERVER_CONFIG"; //environement variable name
     private final String episenServerConfigFileLocation;
     private ServerCoreConfig config;
 

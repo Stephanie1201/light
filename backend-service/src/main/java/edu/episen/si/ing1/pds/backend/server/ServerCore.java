@@ -29,7 +29,7 @@ public class ServerCore {
 
                 ClientRequestManager clientSock = new ClientRequestManager(client, dataSource.receiveConnection());
 
-                //new Thread(clientSock).start();//comment because of clientSocket
+                new Thread((Runnable) clientSock).start();//comment because of clientSocket
             }
         } catch (SocketException e) {
             logger.info(" A client has disconnected");
