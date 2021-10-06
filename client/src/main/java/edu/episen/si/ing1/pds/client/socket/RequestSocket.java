@@ -4,6 +4,7 @@ public class RequestSocket {
     private String request;
     private Object data;
 
+    //this class is use to do the request
     public void setRequest(String request){this.request = request;}
     public void setData(Object data){ this.data = data;}
     public String getRequest(){return request;}
