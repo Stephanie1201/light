@@ -39,6 +39,7 @@ public class ClientRequestManager {
 
             String line;
             while ((line = bufferedReader.readLine()) != null) { //the line read the inputStream of client
+                logger.info(line);
                 ResquestSocket resquestSocket = mapper.convertValue(line, ResquestSocket.class);
 
                 if(connection != null)
