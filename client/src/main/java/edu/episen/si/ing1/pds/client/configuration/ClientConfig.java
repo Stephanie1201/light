@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class ClientConfig {
     private static final Logger logger = LoggerFactory.getLogger(ClientConfig.class.getName());
-    private static final String episenClientConfigEnVar="CLIENT_CONFIGURATION";
+    private static final String episenClientConfigEnVar="CLIENT_CONFIG";
     private String episenClientConfigFileLocation;
     private ClientCoreConfig config;
 
