@@ -24,16 +24,19 @@ public class ServerCore {
         try{
             serverSocket.setReuseAddress(true);
             while (true){
+                logger.info("Waiting for new client");
                 Socket client = serverSocket.accept();
                 logger.info("new client connected");
 
-                ClientRequestManager clientSock = new ClientRequestManager(client, dataSource.receiveConnection());
-
-                new Thread((Runnable) clientSock).start();//comment because of clientSocket
+             ClientRequestManager clientSock = new ClientRequestManager(client, dataSource.receiveConnection());
+             clientSock.start();//C'est un thread qui va traiter la requête du client en même temps que le main thread :
+                                // le serveur accueille les clients en même temps et si clientSock n'était pas thread
+                                //  le server allait traiter le client un par un ce qui est mauvais parce que tu laisses
+                                // les autres clients attendre
             }
         } catch (SocketException e) {
             logger.info(" A client has disconnected");
-            e.printStackTrace();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -41,6 +44,7 @@ public class ServerCore {
             if (serverSocket != null){
                 try {
                     serverSocket.close();
+
                     DataSource.getInstance().closePool();
                 } catch (IOException e) {
                     e.printStackTrace();
