@@ -2,7 +2,6 @@ package edu.episen.si.ing1.pds.backend.server.pool;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.sql.Connection;
 
 public class DataSource {
@@ -11,8 +10,7 @@ public class DataSource {
     private static DataSource INSTANCE = new DataSource();
 
 //initialisation of jdbcConnectionPool object
-    private DataSource(){
-
+public DataSource(){
         jdbcConnectionPool = SingletonPool.Instance.getInstance();
     }
 
