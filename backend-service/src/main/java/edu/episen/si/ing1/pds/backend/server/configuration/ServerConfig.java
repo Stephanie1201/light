@@ -18,6 +18,7 @@ public class ServerConfig {
         episenServerConfigFileLocation = System.getenv(episenServerConfigEnvVar);
         logger.info("Config file = {}",episenServerConfigFileLocation);
         final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+
         config = mapper.readValue(new File(episenServerConfigFileLocation), ServerCoreConfig.class);
         logger.info("config = {}", config.toString());
     }
