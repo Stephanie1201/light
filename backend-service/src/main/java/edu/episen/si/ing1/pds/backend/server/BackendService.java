@@ -1,10 +1,7 @@
 package edu.episen.si.ing1.pds.backend.server;
 
 import edu.episen.si.ing1.pds.backend.server.configuration.ServerConfig;
-import edu.episen.si.ing1.pds.backend.server.controller.Controller;
-import edu.episen.si.ing1.pds.backend.server.model.Crud;
 import edu.episen.si.ing1.pds.backend.server.pool.DataSource;
-import edu.episen.si.ing1.pds.backend.server.view.View;
 import org.apache.commons.cli.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,24 +25,16 @@ public class BackendService {
         boolean inTestModeT = false;
         if (commandLine.hasOption("testMode")) {
             inTestMode = true;
-            /*Crud crud = new Crud();
-            View view = new View();
-            Controller controller = new Controller(crud, view);
-           // controller.control();*/
-            ServerConfig serverConfig=new ServerConfig();
-            DataSource ds=DataSource.getInstance();
-            ServerCore serverCore=new ServerCore(serverConfig,ds);
-            serverCore.serve();
+            ServerConfig serverConfig=new ServerConfig();//pour lire le fichier yaml du serveur pour la configuration
+            DataSource ds = DataSource.getInstance();//pour l'initialisation du pool de connexion
+            ServerCore serverCore=new ServerCore(serverConfig,ds); //crée la socket du serveur
+            serverCore.serve(); // C'est la classe où le serveur gère la présence des clients
             ds.closePool();
         }
         if (commandLine.hasOption("maxConnection")) {
             maxConnectionV = Integer.parseInt(commandLine.getOptionValue("maxConnection"));
         }
-        if(commandLine.hasOption("testModeT")){
-            inTestModeT = true;
-            TestThread t = new TestThread();
-            t.testThread();
-        }
+
         serverLogger.info("yes! BackendService is running (testMode={}), (testModeT={}), (maxConnection={}). ", inTestMode, inTestModeT, maxConnectionV);
 
     }
