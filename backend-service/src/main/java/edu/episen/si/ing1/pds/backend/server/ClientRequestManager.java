@@ -12,9 +12,8 @@ import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ClientRequestManager {
+public class ClientRequestManager extends Thread{
     private static final Logger logger = LoggerFactory.getLogger(ClientRequestManager.class.getName());
-    private final static String name = "client-thread-manager";
     private Connection connection;
     private Socket clientSocket;
 
@@ -25,7 +24,6 @@ public class ClientRequestManager {
 
 
     public void run(){
-
         PrintWriter printWriter = null;
         BufferedReader bufferedReader = null;
 
@@ -34,23 +32,28 @@ public class ClientRequestManager {
             printWriter = new PrintWriter(clientSocket.getOutputStream(),true);
 
         // get the inputstream of client
-            bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
             ObjectMapper mapper = new ObjectMapper();
+            logger.info("Client run is here!!!");
 
-            String line;
-            while ((line = bufferedReader.readLine()) != null) { //the line read the inputStream of client
-                logger.info(line);
-                ResquestSocket resquestSocket = mapper.convertValue(line, ResquestSocket.class);
-
-                if(connection != null)
-                    RequestHandler.sendResponse(resquestSocket, printWriter,connection);
-
-                else {
-                    System.out.println("DataSource : " + DataSource.getInstance().getNumberConnection());
-                    handleReachedLimitPool(printWriter);
-                }
+            while(clientSocket.getInputStream().available()==0){
+                Thread.sleep(0);      //attends juqu'à ce qu'il y'a des donnée envoyé par le client dans le flux
             }
 
+            byte [] inputData=new byte[clientSocket.getInputStream().available()];
+            clientSocket.getInputStream().read(inputData);//Ici ont lit ce qu'il a été envoyé par le client dans le flux et stocker ces données dans inputData
+            logger.info("Message received from client : {}",new String(inputData));
+            ResquestSocket resquestSocket = mapper.readValue(new String(inputData), ResquestSocket.class); // on convertit les données reçus du client en requestsocket
+            if(connection != null) {
+
+                RequestHandler.sendResponse(resquestSocket, printWriter, connection); //on lui donne requestsocket pour qu'il y extrait les données du fichier json pour les lir
+                                                // on lui donne le printWriter pour qu'il l'utilise afin de répondre le client
+                                                     // et connection car c'est avec ça qu'il va intéragir avec la base de donnée
+            }
+            else {
+                System.out.println("DataSource : " + DataSource.getInstance().getNumberConnection());
+                handleReachedLimitPool(printWriter);
+            }
 
         } catch (IOException e) {
             logger.error("client has been disconnected");
@@ -65,7 +68,7 @@ public class ClientRequestManager {
         finally {
             if (connection != null){
                 DataSource.getInstance().putConnection(connection);
-                logger.info("Nomber of connection after closing client : " + DataSource.getInstance().getNumberConnection());
+                //logger.info("Nomber of connection after closing client : " + DataSource.getInstance().getNumberConnection());
             }
             try{
                 if (printWriter != null){
