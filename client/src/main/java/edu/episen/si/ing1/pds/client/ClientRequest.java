@@ -37,7 +37,7 @@ public class ClientRequest {
         String path= clientDataFileLocation + "/"+requestName+".json";
         RequestSocket mapJsonFile = mapper.readValue(new File(path), RequestSocket.class);
         outputStream.write(mapper.writeValueAsBytes(mapJsonFile)); //envoie au format json
-        outputStream.flush();//assure l'envoie
+        outputStream.flush();//assures the sending
            // outputStream.close();
         logger.info(mapJsonFile.toString());
         logger.info(("Request submitted"));
