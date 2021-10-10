@@ -37,18 +37,19 @@ public class ClientRequestManager extends Thread{
             logger.info("Client run is here!!!");
 
             while(clientSocket.getInputStream().available()==0){
-                Thread.sleep(0);      //attends juqu'à ce qu'il y'a des donnée envoyé par le client dans le flux
+                Thread.sleep(0); //Wait until client sends data
             }
 
             byte [] inputData=new byte[clientSocket.getInputStream().available()];
-            clientSocket.getInputStream().read(inputData);//Ici ont lit ce qu'il a été envoyé par le client dans le flux et stocker ces données dans inputData
+            clientSocket.getInputStream().read(inputData);//Read of data sends by client and put them in inputStream
             logger.info("Message received from client : {}",new String(inputData));
-            ResquestSocket resquestSocket = mapper.readValue(new String(inputData), ResquestSocket.class); // on convertit les données reçus du client en requestsocket
+            ResquestSocket resquestSocket = mapper.readValue(new String(inputData), ResquestSocket.class); // Conversion the client data to requestsocket
             if(connection != null) {
 
-                RequestHandler.sendResponse(resquestSocket, printWriter, connection); //on lui donne requestsocket pour qu'il y extrait les données du fichier json pour les lir
-                                                // on lui donne le printWriter pour qu'il l'utilise afin de répondre le client
-                                                     // et connection car c'est avec ça qu'il va intéragir avec la base de donnée
+                RequestHandler.sendResponse(resquestSocket, printWriter, connection);
+                /* we give requestHandler the requestsocket to take the data from json file,
+                the printWriter help him to return the answer to the client
+                and it used connection to change with database*/
             }
             else {
                 System.out.println("DataSource : " + DataSource.getInstance().getNumberConnection());
