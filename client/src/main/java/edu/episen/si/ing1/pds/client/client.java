@@ -29,7 +29,7 @@ public class client {
         boolean inTestMode = false;
         if (commandLine.hasOption("testMode")) {
             ClientRequest clientRequest = new ClientRequest(clientConfig);
-            clientRequest.startConnection((String)commandLine.getOptionValue("request"));//Donner a la méthode la valeur de ta requête
+            clientRequest.startConnection((String)commandLine.getOptionValue("request"));//give to the methode the value of request
            //clientRequest.stopConnection();
         }
         if (commandLine.hasOption("maxConnection")){
