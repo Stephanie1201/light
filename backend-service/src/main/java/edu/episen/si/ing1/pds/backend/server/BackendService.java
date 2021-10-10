@@ -25,10 +25,10 @@ public class BackendService {
         boolean inTestModeT = false;
         if (commandLine.hasOption("testMode")) {
             inTestMode = true;
-            ServerConfig serverConfig=new ServerConfig();//pour lire le fichier yaml du serveur pour la configuration
-            DataSource ds = DataSource.getInstance();//pour l'initialisation du pool de connexion
-            ServerCore serverCore=new ServerCore(serverConfig,ds); //crée la socket du serveur
-            serverCore.serve(); // C'est la classe où le serveur gère la présence des clients
+            ServerConfig serverConfig=new ServerConfig();//Read the yaml file server for the configuration
+            DataSource ds = DataSource.getInstance();//For initialisation of the connexion pool
+            ServerCore serverCore =new ServerCore(serverConfig,ds); //Create the serverSocket
+            serverCore.serve(); // manage the client connexion
             ds.closePool();
         }
         if (commandLine.hasOption("maxConnection")) {
