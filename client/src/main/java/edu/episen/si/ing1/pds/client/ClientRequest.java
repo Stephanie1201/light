@@ -22,8 +22,8 @@ public class ClientRequest {
     private static String clientDataEnvVar = "CLIENT_DATA_JSON";
 
     public ClientRequest(final ClientConfig config) throws IOException{
-        clientSocket = new Socket("localhost",  config.getConfig().getListenPort());
-        //clientSocket = new Socket(config.getConfig().getIpAddress(), config.getConfig().getListenPort());
+        //clientSocket = new Socket("localhost",  config.getConfig().getListenPort());
+        clientSocket = new Socket(config.getConfig().getIpAddress(), config.getConfig().getListenPort());
         clientDataFileLocation = System.getenv(clientDataEnvVar);
     }
 
