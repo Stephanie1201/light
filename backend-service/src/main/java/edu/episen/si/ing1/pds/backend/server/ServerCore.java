@@ -29,10 +29,10 @@ public class ServerCore {
                 logger.info("new client connected");
 
              ClientRequestManager clientSock = new ClientRequestManager(client, dataSource.receiveConnection());
-             clientSock.start();//C'est un thread qui va traiter la requête du client en même temps que le main thread :
-                                // le serveur accueille les clients en même temps et si clientSock n'était pas thread
-                                //  le server allait traiter le client un par un ce qui est mauvais parce que tu laisses
-                                // les autres clients attendre
+             clientSock.start();/*It is a thread that will process the client's request at the same time as the main thread:
+                                the server welcomes clients at the same time and if clientSock was not thread
+                                the waiter was going to deal with the client one by one which is bad because you let
+                                the other customers are waiting */
             }
         } catch (SocketException e) {
             logger.info(" A client has disconnected");
