@@ -8,7 +8,8 @@ public enum SingletonPool {
          jdbcConnectionPool = new JDBCConnectionPool();
      }
 
-     JDBCConnectionPool getInstance(){
+     JDBCConnectionPool getInstance(int numberConnection){
+         jdbcConnectionPool.setMaxConnection(numberConnection);
          jdbcConnectionPool.init();
          return jdbcConnectionPool;
      }
