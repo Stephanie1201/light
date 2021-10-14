@@ -18,7 +18,7 @@ public class JDBCConnectionPool {
     private String dataBaseUrl;
     private String user;
     private String passWord;
-    private int maxConnection;
+    private static int maxConnection;
     private static boolean isInit = false;
     private   DatabaseConfig databaseConfig;
     private static final Logger logger = LoggerFactory.getLogger(JDBCConnectionPool.class.getName());
@@ -37,11 +37,15 @@ public class JDBCConnectionPool {
          dataBaseUrl = databaseConfig.getConfig().getDATABASE_URL();
          user = databaseConfig.getConfig().getUSER();
          passWord = databaseConfig.getConfig().getPASSWORD();
-         maxConnection = databaseConfig.getConfig().getMAX_CONNECTION();
+         //maxConnection = databaseConfig.getConfig().getMAX_CONNECTION();
          physicalConnections = new ArrayList<>();
 
     }
+    public void setMaxConnection(int numberConnection){
+        maxConnection = numberConnection;
+    }
 public void init(){
+        logger.info("Initializing pool..: {}",maxConnection);
         try {
             Class.forName(driverName);
         } catch (ClassNotFoundException e) {
@@ -77,6 +81,8 @@ public boolean addConnection(Connection connection){
         return physicalConnections.add(connection);
 }
 
+
+
 // return the number of connections which rest
 public int getSizeArrayConnection(){
         return physicalConnections.size();
@@ -86,4 +92,5 @@ public int getSizeArrayConnection(){
         // isEmty= est vide
         return physicalConnections.size() == 0;
     }
+
 }
