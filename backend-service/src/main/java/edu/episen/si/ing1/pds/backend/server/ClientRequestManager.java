@@ -45,14 +45,15 @@ public class ClientRequestManager extends Thread{
             logger.info("Message received from client : {}",new String(inputData));
             ResquestSocket resquestSocket = mapper.readValue(new String(inputData), ResquestSocket.class); // Conversion the client data to requestsocket
             if(connection != null) {
-
+                Thread.sleep(2500);// Pour que la requête du client ne se termine pas instantanément
                 RequestHandler.sendResponse(resquestSocket, printWriter, connection);
                 /* we give requestHandler the requestsocket to take the data from json file,
                 the printWriter help him to return the answer to the client
                 and it used connection to change with database*/
             }
             else {
-                System.out.println("DataSource : " + DataSource.getInstance().getNumberConnection());
+                logger.info("DataSource : " + DataSource.getInstance().getNumberConnection()+ " No more connections in the pool!");
+
                 handleReachedLimitPool(printWriter);
             }
 
@@ -69,7 +70,7 @@ public class ClientRequestManager extends Thread{
         finally {
             if (connection != null){
                 DataSource.getInstance().putConnection(connection);
-                //logger.info("Nomber of connection after closing client : " + DataSource.getInstance().getNumberConnection());
+                logger.info("Number of connection after closing client : " + DataSource.getInstance().getNumberConnection());
             }
             try{
                 if (printWriter != null){
@@ -90,7 +91,7 @@ public class ClientRequestManager extends Thread{
 
         Map<String,Object> response = new HashMap<>();
         response.put("request", "empty_pool"); // emty (vide)
-        response.put("data", "there is no mire connection in the pool. Retry later ");
+        response.put("data", "there is no more connection in the pool. Retry later ");
 
         String errorMessage = mapper.writeValueAsString(response);
         writer.println(errorMessage);
