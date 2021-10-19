@@ -11,19 +11,19 @@ public class DataSource {
 
 //initialisation of jdbcConnectionPool object
 public DataSource(){
-        jdbcConnectionPool = SingletonPool.Instance.getInstance();
+
     }
 
     public synchronized Connection receiveConnection() {
         Connection connection = null;
-        if (jdbcConnectionPool.isEmpty()) { // (s'il n'y a plus de connection)
+        if (jdbcConnectionPool.isEmpty()) { // (if connexion is absent)
             try {
-                logger.info("no more connection"); //afficher ce message
+                logger.info("no more connection"); //print this message
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        else { //sinon ça fait appel à la méthode getConnection() de jdbcconnectionPool
+        else { //else call the getConnection methode present in jdbcConnectionPool
             connection = jdbcConnectionPool.getConnection();
         }
         return connection;
@@ -51,5 +51,9 @@ public JDBCConnectionPool getJdbcConnectionPool(){
 
 public static DataSource getInstance(){
         return INSTANCE;
+}
+public void startPool(int numberConnection){
+
+    jdbcConnectionPool = SingletonPool.Instance.getInstance(numberConnection);
 }
 }
