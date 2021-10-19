@@ -11,7 +11,7 @@ public class DatabaseCoreConfig {
     private String DATABASE_URL;
     private String USER;
     private String PASSWORD;
-    private int MAX_CONNECTION;
+
 
     public DatabaseCoreConfig() {
     }
@@ -52,14 +52,7 @@ public class DatabaseCoreConfig {
         this.PASSWORD = PASSWORD;
     }
 
-    @JsonGetter("MAX_CONNECTION")
-    public int getMAX_CONNECTION() {
-        return MAX_CONNECTION;
-    }
 
-    public void setMAX_CONNECTION(int MAX_CONNECTION) {
-        this.MAX_CONNECTION = MAX_CONNECTION;
-    }
 
     @Override
     public String toString() {
@@ -67,8 +60,7 @@ public class DatabaseCoreConfig {
                 "DRIVER_NAME='" + DRIVER_NAME + '\'' +
                 ", DATABASE_URL='" + DATABASE_URL + '\'' +
                 ", USER='" + USER + '\'' +
-                ", PASSWORD='" + PASSWORD + '\'' +
-                ", MAX_CONNECTION=" + MAX_CONNECTION +
+                ", PASSWORD='" + PASSWORD + '\''  +
                 '}';
     }
 }
