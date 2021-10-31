@@ -1,46 +1,38 @@
 package edu.episen.si.ing1.pds.client.socket;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
+
 
 public class SocketUtility {
     private Socket socket = SocketFactory.Instance.getSocket();
     private final ObjectMapper mapper = new ObjectMapper();
 
+
     public ResponseSocket sendRequest(RequestSocket request) {
         ResponseSocket responseSocket = null;
+        try {
+            String requestStr = mapper.writeValueAsString(request);
 
-        try{
-            String requestString  = mapper.writeValueAsString(request);
+            PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            PrintWriter printWriter = new PrintWriter(socket.getOutputStream(),true);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            printWriter.println(requestString);
+            writer.println(requestStr);
 
-            String message = bufferedReader.readLine();
-            ResponseSocket socketResponse = mapper.readValue(message, ResponseSocket.class);
+            String msg = reader.readLine();
+            ResponseSocket responseS = mapper.readValue(msg, ResponseSocket.class);
 
-            if(socketResponse.getRequest().equals("empty_pool")){
-                throw new IllegalAccessException(socketResponse.getData().toString());
-
+            if(responseS.getRequest().equals("empty_pool")) {
+                throw new IllegalAccessException(responseS.getData().toString());
             }
-            responseSocket = socketResponse;
+            responseSocket = responseS;
 
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return responseSocket;
 
+        return responseSocket;
     }
 
     public void closeSocket(){
@@ -50,6 +42,4 @@ public class SocketUtility {
             e.printStackTrace();
         }
     }
-
-
 }
