@@ -202,7 +202,23 @@ public class RequestHandler {
             response.put("data", building);
 
             String responseMsg = mapper.writeValueAsString(response);
+            System.out.println(responseMsg);
             writer.println(responseMsg);
+        }
+
+        else if (requestName.equals("Insert_Rental")) {
+            ObjectMapper mapper = new ObjectMapper();
+            Map dataLoaded = (Map) request.getData();
+            int company_id  = (int) dataLoaded.get("company_id");
+            String query = " insert into rental (id_mda) SELECT Distinct (rental.id_mda)  from rental INNER JOIN maintenance_department_administrators  on rental.id_mda = maintenance_department_administrators.id_mda where company_id = " + company_id + " ";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.executeUpdate();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("request", requestName);
+            String responseMsg = mapper.writeValueAsString(response);
+            writer.println(responseMsg);
+
         }
 
         else if (requestName.equals("floor_list")) {
@@ -323,6 +339,165 @@ public class RequestHandler {
             response.put("request", requestName);
             response.put("data", hm);
 
+            String responseMsg = mapper.writeValueAsString(response);
+            writer.println(responseMsg);
+
+
+        }
+
+        else if(requestName.equals("mapwindow")){
+
+            ObjectMapper mapper = new ObjectMapper();
+            Map dataLoaded = (Map) request.getData();
+
+            String building = (String) dataLoaded.get("building");
+            String floor = (String) dataLoaded.get("floor");
+            String space = (String) dataLoaded.get("space");
+
+            logger.info(String.valueOf(dataLoaded));
+            /*String sql = "select count(*) as nb from equipment inner join position_ ON equipment.equipment_id = position_.equipment_id\n" +
+                    "INNER JOIN space sp\n" +
+                    "ON sp.space_id = position_.space_id\n" +
+                    "INNER JOIn floor_ f \n" +
+                    "ON f.floor_id = sp.floor_id\n" +
+                    "INNER JOIN building \n" +
+                    "ON building.building_id = f.building_id \n" +
+                    "WHERE building.building_name ='" + building +"' AND f.floor_number = '" + floor +"' AND sp.space_name = '" + space +"' AND equipment.equipment_name = 'Fenetre electro-chromatique'";
+
+            */
+            String sql = "select count(*) as nb from equipment inner join position_ ON equipment.equipment_id = position_.equipment_id\n" +
+                    "INNER JOIN space sp\n" +
+                    "ON sp.space_id = position_.space_id\n" +
+                    "INNER JOIn floor_ f \n" +
+                    "ON f.floor_id = sp.floor_id\n" +
+                    "INNER JOIN building \n" +
+                    "ON building.building_id = f.building_id \n" +
+                    "WHERE building.building_name = 'Batiment Condorcet' AND f.floor_number = '3' AND sp.space_name = 'Open Space 1' AND equipment.equipment_name = 'Fenetre electro-chromatique'\n";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            System.out.println(sql);
+            ResultSet rs = statement.executeQuery();
+            String sql2 = "select equipment_name From equipment WHERE equipment_id = 8";
+            PreparedStatement statement2 = connection.prepareStatement(sql2);
+            ResultSet rs2 = statement2.executeQuery();
+
+            Map<String, Object> hm = new HashMap<>();
+            Map<String, Object> hm2 = new HashMap<>();
+            while (rs.next()) {
+                hm.put("nbwindow", rs.getInt("nb"));
+                System.out.println(hm);
+
+            }
+            while (rs2.next()) {
+                String equipment_name = rs2.getString("equipment_name");
+                hm2.put("equipment_name",equipment_name);
+
+                /*int outside_temperature = rs2.getInt("outside_temperature");
+                hm2.put("outside_temperature",outside_temperature);*/
+                System.out.println(hm2);
+            }
+
+            // response is a map of value that is a list of map
+            Map<String, Object> response = new HashMap<>();
+            response.put("request", requestName);
+            response.put("data", hm2);
+
+            String responseMsg = mapper.writeValueAsString(response);
+            writer.println(responseMsg);
+
+        }
+
+        else if (requestName.equals("EtatActuel")) {
+            ObjectMapper mapper = new ObjectMapper();
+
+            String sql = "SELECT blind_level_start,blind_percentage_start,blind_level_add, blind_percentage_add, opacity_level_start, opacity_percentage_start,opacity_level_add,opacity_percentage_add FRom CONFIGURATION";
+            String sql2 = "Select level_sunlight,outside_temperature from sensor";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+
+            PreparedStatement statement2 = connection.prepareStatement(sql2);
+            ResultSet rs2 = statement2.executeQuery();
+
+            Map<String, Object> hm = new HashMap<>();
+            while (rs.next()) {
+                int blind_level_start = rs.getInt("blind_level_start");
+                int blind_percentage_start = rs.getInt("blind_percentage_start");
+                int blind_level_add = rs.getInt("blind_level_add");
+                int blind_percentage_add= rs.getInt("blind_percentage_add");
+
+                int opacity_level_start= rs.getInt("opacity_level_start");
+                int opacity_percentage_start = rs.getInt("opacity_percentage_start");
+                int opacity_level_add = rs.getInt("opacity_level_add");
+                int opacity_percentage_add = rs.getInt("opacity_percentage_add");
+
+
+
+                hm.put("blind_level_start",blind_level_start);
+                hm.put("blind_percentage_start", blind_percentage_start);
+                hm.put("blind_level_add", blind_level_add);
+                hm.put("blind_percentage_add",blind_percentage_add );
+                hm.put("opacity_level_start",opacity_level_start);
+                hm.put("opacity_percentage_start", opacity_percentage_start );
+                hm.put("opacity_level_add",opacity_level_add);
+                hm.put("opacity_percentage_add",opacity_percentage_add );
+
+
+
+            }
+            while (rs2.next()) {
+                int level_sunlight = rs2.getInt("level_sunlight");
+                hm.put("level_sunlight",level_sunlight);
+
+                int outside_temperature = rs2.getInt("outside_temperature");
+                hm.put("outside_temperature",outside_temperature);
+            }
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("request", requestName);
+            response.put("data", hm);
+            String responseMsg = mapper.writeValueAsString(response);
+            writer.println(responseMsg);
+
+
+        }
+        else if (requestName.equals("store")) {
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String, Object> dataloaded = (Map<String, Object>) request.getData();
+            int vtemp_debut = (int) dataloaded.get("valeurtemp_debut");
+            int ptemp = (int) dataloaded.get("pourcentagetemp_debut");
+            int vtemp_augment = (int) dataloaded.get("valeurtemp_avance");
+            int ptemp_augmente = (int) dataloaded.get("pourcentagetemp_avance");
+
+            String sql = "UPDATE configuration SET blind_level_start = " + vtemp_debut+ ", blind_percentage_start = "+ ptemp + ", blind_level_add = " + vtemp_augment + ", blind_percentage_add = " + ptemp_augmente + " WHERE id = 1";
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.executeUpdate();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("request", requestName);
+            String responseMsg = mapper.writeValueAsString(response);
+            writer.println(responseMsg);
+
+        }
+        else if (requestName.equals("lum")) {
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String, Object> dataloaded1 = (Map<String, Object>) request.getData();
+            int valeur_debut = (int) dataloaded1 .get("valeur_debut");
+            int pourcentage_debut = (int) dataloaded1 .get("pourcentage_debut");
+            int valeur_augment = (int) dataloaded1 .get("valeur_avance");
+            int pourcentage_augmente = (int) dataloaded1 .get("pourcentage_avance");
+
+            System.out.println(valeur_debut);
+            System.out.println(pourcentage_debut);
+            System.out.println(valeur_augment);
+            System.out.println(pourcentage_augmente );
+
+            String sql = "UPDATE configuration SET opacity_level_start = " + valeur_debut+ ", opacity_percentage_start = "+ pourcentage_debut + ", opacity_level_add = " + valeur_augment + ", opacity_percentage_add = " + pourcentage_augmente + " WHERE id = 1";
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.executeUpdate();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("request", requestName);
             String responseMsg = mapper.writeValueAsString(response);
             writer.println(responseMsg);
 
