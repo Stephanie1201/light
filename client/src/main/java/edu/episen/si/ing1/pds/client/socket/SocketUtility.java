@@ -6,7 +6,7 @@ import java.net.Socket;
 
 
 public class SocketUtility {
-    private Socket socket = SocketFactory.Instance.getSocket();
+    private final static Socket socket = SocketFactory.Instance.getSocket();
     private final ObjectMapper mapper = new ObjectMapper();
 
 
@@ -20,13 +20,21 @@ public class SocketUtility {
 
             writer.println(requestStr);
 
-            String msg = reader.readLine();
-            ResponseSocket responseS = mapper.readValue(msg, ResponseSocket.class);
+            String msg;
 
-            if(responseS.getRequest().equals("empty_pool")) {
-                throw new IllegalAccessException(responseS.getData().toString());
+            while ((msg = reader.readLine()) != null){
+              //  Thread.sleep(15000);
+                ResponseSocket responseS = mapper.readValue(msg, ResponseSocket.class);
+                if(responseS.getRequest().equals("empty_pool")) {
+                    throw new IllegalAccessException(responseS.getData().toString());
+                }
+                System.out.println("DATA: " + responseS.getData());
+                responseSocket = responseS;
+                break;
             }
-            responseSocket = responseS;
+
+
+
 
         } catch (Exception e) {
             e.printStackTrace();
