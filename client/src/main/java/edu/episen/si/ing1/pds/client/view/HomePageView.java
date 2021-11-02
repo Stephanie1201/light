@@ -1,21 +1,31 @@
 package edu.episen.si.ing1.pds.client.view;
 
 
+        import edu.episen.si.ing1.pds.client.model.Company;
+        import edu.episen.si.ing1.pds.client.socket.RequestSocket;
+        import edu.episen.si.ing1.pds.client.socket.ResponseSocket;
+        import edu.episen.si.ing1.pds.client.socket.SocketUtility;
+        import edu.episen.si.ing1.pds.client.view.Mapping.RentedSpacesView;
+        import edu.episen.si.ing1.pds.client.view.SpaceRental.FirstPageRentCriteria;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-
+        import javax.swing.*;
+        import java.awt.*;
+        import java.awt.event.*;
+        import java.util.HashMap;
+        import java.util.List;
+        import java.util.Map;
+        import java.util.Vector;
 
 public class HomePageView extends WelcomeFrame implements ActionListener {
     private JPanel panel;
-    private JLabel labelbienvenue,labelselect,j3,j4;
-    private JButton bselect,b2,b3;
+    private JLabel j1,j2,j3,j4;
+    private JButton b1,b2,b3;
     private JComboBox jcb1;
+    private SocketUtility socketUtility = new SocketUtility();
 
     public HomePageView(){
 
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Light");
         this.setLocationRelativeTo(null);
 
@@ -24,23 +34,18 @@ public class HomePageView extends WelcomeFrame implements ActionListener {
         panel.setLayout(null);
 
 
-        labelbienvenue = new JLabel("Bienvenue dans Lightcompany");
-        labelbienvenue.setBounds(400,10,340,20);
-        labelbienvenue.setFont(new Font("Arial", Font.PLAIN, 20));
-        panel.add(labelbienvenue);
+        j1 = new JLabel("Bienvenue dans Light");
+        j1.setBounds(30,360,240,20);
+        j1.setFont(new Font("Arial", Font.PLAIN, 20));
+        panel.add(j1);
 
 
-        labelselect = new JLabel("Selectionnez votre entreprise");
-        labelselect.setBounds(390,200,260,20);
-        labelselect.setFont(new Font("Arial", Font.PLAIN, 15));
-        panel.add(labelselect);
+        j2 = new JLabel("Selectionnez votre entreprise");
+        j2.setBounds(390,80,260,20);
+        j2.setFont(new Font("Arial", Font.PLAIN, 18));
+        panel.add(j2);
 
-        bselect = new JButton("List des entreprises");
-        bselect.setBounds(410,230,160,20);
-        bselect.addActionListener(this);
-        panel.add(bselect);
-
-       /* RequestSocket requestSocket = new RequestSocket();
+        RequestSocket requestSocket = new RequestSocket();
         requestSocket.setRequest("company_list");
         Map<String, Object> data = new HashMap<> ();
         requestSocket.setData(data);
@@ -70,8 +75,7 @@ public class HomePageView extends WelcomeFrame implements ActionListener {
                 return this;
             }
         });
-*/
-   /*
+
         jcb1.addItemListener(new ItemListener () {
             public void itemStateChanged(ItemEvent e) {
 
@@ -79,68 +83,42 @@ public class HomePageView extends WelcomeFrame implements ActionListener {
                     Map item = (Map) e.getItem();
                     int company_id = (Integer) item.get("company_id");
                     String company_name = (String) item.get("company_name");
-                    //Company.setCompany_id (company_id);
-                    //Company.setCompany_name (company_name);
+                    Company.setCompany_id (company_id);
+                    Company.setCompany_name (company_name);
 
                 }
             }
         });
-*/
-        /*
-        j3 = new JLabel("Premiere fois ?");
-        j3.setBounds(410,210,200,20);
-        j3.setFont(new Font("Arial", Font.PLAIN, 14));
-        panel.add(j3);
 
-        b1 = new JButton("Je loue");
-        b1.setBounds(440,250,140,20);
-        b1.addActionListener(this);
-        panel.add(b1);
 
 
         j4 = new JLabel("Je visualise mes espaces");
-        j4.setBounds(410,330,200,20);
+        j4.setBounds(410,230,200,20);
         j4.setFont(new Font("Arial", Font.PLAIN, 14));
         panel.add(j4);
 
         b2 = new JButton("Voir mes espaces");
-        b2.setBounds(440,380,140,20);
+        b2.setBounds(440,280,140,20);
         b2.addActionListener(this);
         panel.add(b2);
-*/
 
     }
-/*
+
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
-        if (source == b1) {
-
-            RequestSocket requestSocket = new RequestSocket();
-            requestSocket.setRequest("Insert_Rental");
-            Map<String, Object> data = new HashMap<>();
-            data.put("company_id", Company.getCompany_id());
-            requestSocket.setData(data);
-            ResponseSocket responseRental = socketUtility.sendRequest(requestSocket);
-            dispose();
-            FirstPageRentCriteria f = new FirstPageRentCriteria();
-            f.setVisible(true);
-
-
-        } else if (source == b2) {
+        if (source == b2) {
             this.dispose();
             RentedSpacesView r = new RentedSpacesView();
             r.setVisible(true);
-        }*/
 
+        }
+    }
 
     public static void main(String[] args) {
         HomePageView hpm = new HomePageView();
         hpm.setVisible(true);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
 }
+
