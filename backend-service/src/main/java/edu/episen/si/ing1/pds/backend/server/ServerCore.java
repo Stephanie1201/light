@@ -36,6 +36,7 @@ public class ServerCore {
             }
         } catch (SocketException e) {
             logger.info(" A client has disconnected");
+            e.printStackTrace();
 
         } catch (IOException e) {
             e.printStackTrace();
