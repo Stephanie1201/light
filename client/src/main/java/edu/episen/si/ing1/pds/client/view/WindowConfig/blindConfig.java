@@ -185,9 +185,8 @@ public class blindConfig extends WelcomeFrame implements ActionListener {
                     data.put("valeurtemp_avance", va_pars);
                     data.put("pourcentagetemp_avance", pa_pars);
 
-                    System.out.println(data);
                     request.setData(data);
-                    System.out.println(data);
+
 
                     JOptionPane.showMessageDialog(debutstore, "configuration prise en compte", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
 
