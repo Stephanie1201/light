@@ -13,7 +13,7 @@ public class WelcomeFrame extends JFrame {
     public WelcomeFrame() {
         super("Light");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(800,600);
+        this.setSize(1000,1000);
         this.setLocationRelativeTo(null);
         this.setResizable(true);
 

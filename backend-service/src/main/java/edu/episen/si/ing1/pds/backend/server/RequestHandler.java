@@ -38,7 +38,7 @@ public class RequestHandler {
 
         }
 
-        else if (requestName.equals("select")) {  //name of request
+        /*else if (requestName.equals("select")) {  //name of request
             ObjectMapper mapper = new ObjectMapper();
             Map dataLoaded = (Map) request.getData();
             int id  =  (Integer) dataLoaded.get("id"); //recupération of ID
@@ -107,7 +107,7 @@ public class RequestHandler {
             logger.info("Response submitted to client!");
 
 
-        }
+        }*/
         else if (requestName.equals("company_list")) {
             ObjectMapper mapper = new ObjectMapper();
             Map dataLoaded = (Map) request.getData();
@@ -203,7 +203,6 @@ public class RequestHandler {
             response.put("data", building);
 
             String responseMsg = mapper.writeValueAsString(response);
-            System.out.println("lister de buidiiinggggg " + responseMsg);
             writer.println(responseMsg);
         }
 
@@ -453,7 +452,7 @@ public class RequestHandler {
                 hm.put("outside_temperature",outside_temperature);
             }
 
-            System.out.println("Voici les valeurs qui vont être renvoyer à EtatActuel " + hm);
+           logger.info("Voici les valeurs qui vont etre renvoyer a EtatActuel {} " + hm);
 
             Map<String, Object> response = new HashMap<>();
             response.put("request", requestName);
@@ -497,7 +496,7 @@ public class RequestHandler {
                 c++;
             }
 
-            System.out.println("Voici la fenetre sélectionnée " + hm);
+           logger.info("Voici les fenetres selectionnees " + hm);
             Map<String, Object> response = new HashMap<>();
             response.put("request", requestName);
             response.put("data", hm);
@@ -509,7 +508,7 @@ public class RequestHandler {
         else if (requestName.equals("store")) {
             ObjectMapper mapper = new ObjectMapper();
             Map<String, Object> dataloaded = (Map<String, Object>) request.getData();
-            System.out.println("Ceux ci sont les données des stores " + dataloaded);
+            logger.info("Ceux ci sont les donnees des stores {}" + dataloaded);
             int vtemp_debut = (int) dataloaded.get("valeurtemp_debut");
             int ptemp = (int) dataloaded.get("pourcentagetemp_debut");
             int vtemp_augment = (int) dataloaded.get("valeurtemp_avance");
@@ -533,11 +532,6 @@ public class RequestHandler {
             int pourcentage_debut = (int) dataloaded1 .get("pourcentage_debut");
             int valeur_augment = (int) dataloaded1 .get("valeur_avance");
             int pourcentage_augmente = (int) dataloaded1 .get("pourcentage_avance");
-
-            System.out.println(valeur_debut);
-            System.out.println(pourcentage_debut);
-            System.out.println(valeur_augment);
-            System.out.println(pourcentage_augmente );
 
             String sql = "UPDATE configuration SET opacity_level_start = " + valeur_debut+ ", opacity_percentage_start = "+ pourcentage_debut + ", opacity_level_add = " + valeur_augment + ", opacity_percentage_add = " + pourcentage_augmente + " WHERE id = 1";
 

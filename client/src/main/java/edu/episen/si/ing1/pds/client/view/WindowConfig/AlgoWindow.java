@@ -43,7 +43,6 @@ public class AlgoWindow {
     }
 
     public ArrayList<String> algoWindow() {
-        // String window
         ArrayList<String> list = new ArrayList();
         list.add(String.valueOf(level_sunlight));
 

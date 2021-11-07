@@ -2,11 +2,14 @@ package edu.episen.si.ing1.pds.client.view;
 
 
         import com.fasterxml.jackson.core.JsonProcessingException;
+        import edu.episen.si.ing1.pds.backend.server.RequestHandler;
         import edu.episen.si.ing1.pds.client.model.Company;
         import edu.episen.si.ing1.pds.client.socket.RequestSocket;
         import edu.episen.si.ing1.pds.client.socket.ResponseSocket;
         import edu.episen.si.ing1.pds.client.socket.SocketUtility;
         import edu.episen.si.ing1.pds.client.view.Mapping.RentedSpacesView;
+        import org.slf4j.Logger;
+        import org.slf4j.LoggerFactory;
 
         import javax.swing.*;
         import java.awt.*;
@@ -22,6 +25,7 @@ public class HomePageView extends WelcomeFrame implements ActionListener {
     private JButton b1,b2;
     private JComboBox jcb1;
     private SocketUtility socketUtility = new SocketUtility();
+    private static final Logger logger = LoggerFactory.getLogger(HomePageView.class.getName());
 
     public HomePageView(){
 
@@ -53,7 +57,7 @@ public class HomePageView extends WelcomeFrame implements ActionListener {
 
         ResponseSocket response = socketUtility.sendRequest(request);
         List<Map> companyList = (List<Map>) response.getData();
-       System.out.println("companylist  "+companyList);
+       logger.info("companylist {} "+companyList);
 
 
         jcb1 = new JComboBox(new Vector (companyList));

@@ -1,9 +1,12 @@
 package edu.episen.si.ing1.pds.client.view.WindowConfig;
 
+import edu.episen.si.ing1.pds.backend.server.RequestHandler;
 import edu.episen.si.ing1.pds.client.socket.RequestSocket;
 import edu.episen.si.ing1.pds.client.socket.ResponseSocket;
 import edu.episen.si.ing1.pds.client.socket.SocketUtility;
 import edu.episen.si.ing1.pds.client.view.WelcomeFrame;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 import javax.swing.*;
@@ -14,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class blindConfig extends WelcomeFrame implements ActionListener {
+    private static final Logger logger = LoggerFactory.getLogger(blindConfig.class.getName());
     //declaration of variable
     private JButton bconfiguration, bvalider, bsuivant , bretour;
     private final SocketUtility socketUtility = new SocketUtility();

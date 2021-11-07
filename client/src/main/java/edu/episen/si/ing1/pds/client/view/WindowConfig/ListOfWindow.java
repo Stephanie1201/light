@@ -46,8 +46,8 @@ public class ListOfWindow extends WelcomeFrame implements ActionListener {
 
 
         labelsituationstore = new JLabel("Vous configurez les fenetres du : " + nameBuilding + ", Etage " + floorNumber + "," + spaceName);
-        labelsituationstore.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        labelsituationstore.setBounds(158, 50, 800, 50);
+        labelsituationstore.setFont(new Font("Tahoma", Font.PLAIN, 10));
+        labelsituationstore.setBounds(0, 50, 800, 50);
         labelsituationstore.setForeground(new Color(20,0,255));
         panel.add(labelsituationstore);
 
@@ -58,7 +58,7 @@ public class ListOfWindow extends WelcomeFrame implements ActionListener {
 
 
         blist = new JButton("Liste des fenetres a Configurer");
-        blist.setBounds(250, 130, 500, 30);
+        blist.setBounds(0, 130, 300, 25);
         blist.setBackground(Color.ORANGE);
         panel.add(blist);
         blist.addActionListener(this);
@@ -87,7 +87,7 @@ public class ListOfWindow extends WelcomeFrame implements ActionListener {
             Map<Integer,Map<String, Integer>> ListFenetre = (Map<Integer,Map<String, Integer>>)response.getData();
 
             if (ListFenetre != null) {
-                int x=158;
+                int x=20;
                 int y=0;
 
                 setLayout(new GridLayout(1, 2));
@@ -95,13 +95,14 @@ public class ListOfWindow extends WelcomeFrame implements ActionListener {
 
                 for (Map.Entry mapentry : ListFenetre.entrySet()) {
                     Map<String, Integer> map = (Map<String, Integer>) mapentry.getValue();
-                    logger.info("Donnees Recuperes {} " + map);
+                    logger.info("Donnees Recuperees {} " + map);
                     bconfiguration = new JButton("Fenetre electro-chromatique id " + map.get("equipment_id"));
 
                     y+=200;
                     bconfiguration.setBounds(x, y, 300, 50);
                     jButtons.add(bconfiguration);
                     panel.add(bconfiguration);
+                    panel.revalidate();
                 }
                 for(JButton button: jButtons){
                     button.addMouseListener(new MouseListener() {
@@ -138,7 +139,7 @@ public class ListOfWindow extends WelcomeFrame implements ActionListener {
         } else {
             Msgerror = new JLabel("Aucune fenetre n'a ete place ici");
             Msgerror.setFont(new Font("Tahoma", Font.PLAIN, 12));
-            Msgerror.setBounds(358, 70, 500, 29);
+            Msgerror.setBounds(20, 70, 500, 29);
             panel.add(Msgerror);
         }
     }
