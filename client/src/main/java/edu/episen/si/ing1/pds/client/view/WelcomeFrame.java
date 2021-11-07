@@ -1,5 +1,7 @@
 package edu.episen.si.ing1.pds.client.view;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -13,7 +15,7 @@ public class WelcomeFrame extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(800,600);
         this.setLocationRelativeTo(null);
-        this.setResizable(false);
+        this.setResizable(true);
 
         BorderLayout bl = new BorderLayout();
         jlabel = new JLabel("Lightcompany");
@@ -39,7 +41,7 @@ public class WelcomeFrame extends JFrame {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws JsonProcessingException {
         WelcomeFrame wf = new WelcomeFrame();
         wf.setVisible(true);
     }
