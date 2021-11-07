@@ -1,7 +1,5 @@
 package edu.episen.si.ing1.pds.client.view.Mapping;
-
-
-
+import com.fasterxml.jackson.core.JsonProcessingException;
 import edu.episen.si.ing1.pds.client.model.Building;
 import edu.episen.si.ing1.pds.client.model.Company;
 import edu.episen.si.ing1.pds.client.model.Floor;
@@ -26,9 +24,9 @@ public class RentedSpacesView extends WelcomeFrame  implements ActionListener{
 
     private final SocketUtility socketUtility = new SocketUtility();
     private  JPanel jp1;
-    private  JComboBox jc1;
-    private  JComboBox jc2;
-    private  JComboBox jc3;
+    private static JComboBox jc1;
+    private  static JComboBox jc2;
+    private  static JComboBox jc3;
     private  JLabel jl1;
     private  JLabel jl2;
     private  JLabel jl3;
@@ -46,14 +44,10 @@ public class RentedSpacesView extends WelcomeFrame  implements ActionListener{
 
         //initializes buttons
         jb1 = new JButton("Retour ");
-        jb2 = new JButton("Afficher les fenêtres ");
-        jb4 = new JButton("Configurer fenetres electromatiques ");
-
+        jb2 = new JButton("Afficher les fenêtres à configurer ");
 
         jl1 = new JLabel("Vos espaces loues");
         jl2 = new JLabel("Selectionner l'espace que vous voulez afficher : ");
-
-
 
         /**
          * create the request to send to the server
@@ -64,7 +58,6 @@ public class RentedSpacesView extends WelcomeFrame  implements ActionListener{
         hm.put("company_id", Company.getCompany_id());
         request.setData(hm);
         ResponseSocket response = socketUtility.sendRequest(request);
-        System.out.println("heueueuueueeeeeeeeeeeeeeeeeeeeeeeeeee" + response);
         // data is the list of map we sent in the server (look response)
         List<Map> buildingList = (List<Map>) response.getData();
         jc1 = new JComboBox(new Vector(buildingList));
@@ -147,7 +140,8 @@ public class RentedSpacesView extends WelcomeFrame  implements ActionListener{
                     data.put("building_id", buildingId);
                     requestSocket.setData(data);
 
-                    ResponseSocket responseFloor = socketUtility.sendRequest(requestSocket);
+                    ResponseSocket responseFloor = null;
+                    responseFloor = socketUtility.sendRequest(requestSocket);
                     List<Map> floorListFetched = (List<Map>) responseFloor.getData();
                     jc2Model.removeAllElements();
                     for (Map floorElement : floorListFetched) {
@@ -180,7 +174,8 @@ public class RentedSpacesView extends WelcomeFrame  implements ActionListener{
                     data.put("floor_id", floorId);
                     requestSocket.setData(data);
 
-                    ResponseSocket responseSpace = socketUtility.sendRequest(requestSocket);
+                    ResponseSocket responseSpace = null;
+                    responseSpace = socketUtility.sendRequest(requestSocket);
                     List<Map> spaceListFetched = (List<Map>) responseSpace.getData();
 
                     // clear the data in the drop down list
@@ -258,38 +253,7 @@ public class RentedSpacesView extends WelcomeFrame  implements ActionListener{
             }
         });
 
-        jb4.addMouseListener(new MouseListener() {
 
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-                if(Company.getCompany_name().equals("")){
-                    dispose();
-                    HomePageView lw = new HomePageView();
-                    lw.setVisible(true);
-                }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
 
         jb1.addMouseListener(new MouseListener() {
             @Override
@@ -333,10 +297,8 @@ public class RentedSpacesView extends WelcomeFrame  implements ActionListener{
         jc3.setBounds(720, 140, 200, 20);
 
         jb1.setBounds(20, 20, 200, 20);
-        jb2.setBounds(720, 200, 200, 20);
+        jb2.setBounds(720, 200, 250, 20);
         jb2.addActionListener((ActionListener) this);
-
-        jb4.setBounds(370, 350, 200, 20);
 
 
         jp1.add(jl1);
@@ -345,8 +307,6 @@ public class RentedSpacesView extends WelcomeFrame  implements ActionListener{
 
         jp1.add(jb1);
         jp1.add(jb2);
-
-        jp1.add(jb4);
 
 
         jp1.add(jc1);
@@ -357,9 +317,21 @@ public class RentedSpacesView extends WelcomeFrame  implements ActionListener{
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws JsonProcessingException {
         RentedSpacesView r = new RentedSpacesView();
         r.setVisible(true);
+    }
+
+    public static JComboBox getJc1() {
+        return jc1;
+    }
+
+    public static JComboBox getJc2() {
+        return jc2;
+    }
+
+    public static JComboBox getJc3() {
+        return jc3;
     }
 
     @Override
