@@ -128,6 +128,7 @@ public class RequestHandler {
             response.put("data", name);
 
             String responseMsg = mapper.writeValueAsString(response);
+            System.out.println("here is "+responseMsg);
             writer.println(responseMsg);
 
         }
@@ -202,7 +203,7 @@ public class RequestHandler {
             response.put("data", building);
 
             String responseMsg = mapper.writeValueAsString(response);
-            System.out.println(responseMsg);
+            System.out.println("lister de buidiiinggggg " + responseMsg);
             writer.println(responseMsg);
         }
 
@@ -210,8 +211,8 @@ public class RequestHandler {
             ObjectMapper mapper = new ObjectMapper();
             Map dataLoaded = (Map) request.getData();
             int company_id  = (int) dataLoaded.get("company_id");
-            String query = " insert into rental (id_mda) SELECT Distinct (rental.id_mda)  from rental INNER JOIN maintenance_department_administrators  on rental.id_mda = maintenance_department_administrators.id_mda where company_id = " + company_id + " ";
-            PreparedStatement statement = connection.prepareStatement(query);
+            String querys = " insert into rental (id_mda) SELECT Distinct (rental.id_mda)  from rental INNER JOIN maintenance_department_administrators  on rental.id_mda = maintenance_department_administrators.id_mda where company_id = " + company_id + " ";
+            PreparedStatement statement = connection.prepareStatement(querys);
             statement.executeUpdate();
 
             Map<String, Object> response = new HashMap<>();
@@ -355,24 +356,24 @@ public class RequestHandler {
             String space = (String) dataLoaded.get("space");
 
             logger.info(String.valueOf(dataLoaded));
-            /*String sql = "select count(*) as nb from equipment inner join position_ ON equipment.equipment_id = position_.equipment_id\n" +
-                    "INNER JOIN space sp\n" +
-                    "ON sp.space_id = position_.space_id\n" +
-                    "INNER JOIn floor_ f \n" +
-                    "ON f.floor_id = sp.floor_id\n" +
-                    "INNER JOIN building \n" +
-                    "ON building.building_id = f.building_id \n" +
+            /*String sql = "select count(*) as nb from equipment inner join position_ ON equipment.equipment_id = position_.equipment_id " +
+                    "INNER JOIN space sp " +
+                    "ON sp.space_id = position_.space_id " +
+                    "INNER JOIn floor_ f  " +
+                    "ON f.floor_id = sp.floor_id " +
+                    "INNER JOIN building  " +
+                    "ON building.building_id = f.building_id  " +
                     "WHERE building.building_name ='" + building +"' AND f.floor_number = '" + floor +"' AND sp.space_name = '" + space +"' AND equipment.equipment_name = 'Fenetre electro-chromatique'";
 
             */
-            String sql = "select count(*) as nb from equipment inner join position_ ON equipment.equipment_id = position_.equipment_id\n" +
-                    "INNER JOIN space sp\n" +
-                    "ON sp.space_id = position_.space_id\n" +
-                    "INNER JOIn floor_ f \n" +
-                    "ON f.floor_id = sp.floor_id\n" +
-                    "INNER JOIN building \n" +
-                    "ON building.building_id = f.building_id \n" +
-                    "WHERE building.building_name = 'Batiment Condorcet' AND f.floor_number = '3' AND sp.space_name = 'Open Space 1' AND equipment.equipment_name = 'Fenetre electro-chromatique'\n";
+            String sql = "select count(*) as nb from equipment inner join position_ ON equipment.equipment_id = position_.equipment_id " +
+                    "INNER JOIN space sp " +
+                    "ON sp.space_id = position_.space_id " +
+                    "INNER JOIn floor_ f  " +
+                    "ON f.floor_id = sp.floor_id " +
+                    "INNER JOIN building  " +
+                    "ON building.building_id = f.building_id  " +
+                    "WHERE building.building_name = 'Batiment Condorcet' AND f.floor_number = '3' AND sp.space_name = 'Open Space 1' AND equipment.equipment_name = 'Fenetre electro-chromatique' ";
             PreparedStatement statement = connection.prepareStatement(sql);
             System.out.println(sql);
             ResultSet rs = statement.executeQuery();
@@ -410,6 +411,7 @@ public class RequestHandler {
             ObjectMapper mapper = new ObjectMapper();
 
             String sql = "SELECT blind_level_start,blind_percentage_start,blind_level_add, blind_percentage_add, opacity_level_start, opacity_percentage_start,opacity_level_add,opacity_percentage_add FRom CONFIGURATION";
+
             String sql2 = "Select level_sunlight,outside_temperature from sensor";
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
@@ -451,6 +453,51 @@ public class RequestHandler {
                 hm.put("outside_temperature",outside_temperature);
             }
 
+            System.out.println("Voici les valeurs qui vont être renvoyer à EtatActuel " + hm);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("request", requestName);
+            response.put("data", hm);
+            String responseMsg = mapper.writeValueAsString(response);
+            writer.println(responseMsg);
+
+
+        }
+
+        else if (requestName.equals("ListFenetreMapper")) {
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String, Object> dataloaded = (Map<String, Object>) request.getData();
+            String spaceName= (String) dataloaded.get("spaceName");
+            int floorNumber = (int) dataloaded.get("floorNumber");
+            String nameBuilding = (String) dataloaded.get("nameBuilding");
+
+
+            String sql2 = "Select equipment.equipment_id from building  " +
+                    "inner join floor_ On building.building_id=floor_.building_id " +
+                    "inner join space on floor_.floor_id=space.floor_id " +
+                    "INNER join position_ on space.space_id=position_.space_id " +
+                    "inner join equipment on position_.equipment_id=equipment.equipment_id " +
+                    "Where building_name = '"+nameBuilding+"'"+
+                    " and floor_number = '"+floorNumber+"'"+
+                    " and space_name= '"+spaceName+"'"+
+                    " and equipment_name like '%Fenetre%'; ";
+
+            PreparedStatement statement2 = connection.prepareStatement(sql2);
+            ResultSet rs2 = statement2.executeQuery();
+
+
+            Map<Integer, Map<String, Integer>> hm = new HashMap<>();
+
+            int c=0;
+            while (rs2.next()) {
+                int equipment_id = rs2.getInt("equipment_id");
+                Map<String, Integer> map = new HashMap<>();
+                map.put("equipment_id",equipment_id);
+                hm.put(c,map);
+                c++;
+            }
+
+            System.out.println("Voici la fenetre sélectionnée " + hm);
             Map<String, Object> response = new HashMap<>();
             response.put("request", requestName);
             response.put("data", hm);
@@ -462,6 +509,7 @@ public class RequestHandler {
         else if (requestName.equals("store")) {
             ObjectMapper mapper = new ObjectMapper();
             Map<String, Object> dataloaded = (Map<String, Object>) request.getData();
+            System.out.println("Ceux ci sont les données des stores " + dataloaded);
             int vtemp_debut = (int) dataloaded.get("valeurtemp_debut");
             int ptemp = (int) dataloaded.get("pourcentagetemp_debut");
             int vtemp_augment = (int) dataloaded.get("valeurtemp_avance");
