@@ -29,10 +29,6 @@ public class BrightnessWindowConfig extends WelcomeFrame implements ActionListen
         this.add(panel);
         panel.setLayout(null);
 
-//label textfiel for insde brightness
-       /* JRadioButton r1 = new JRadioButton("maintenir le volet fermer à un certain pourcentage", true);
-        r1.setActionCommand("choix1");
-        panel.add(r1);*/
         labelsituationteinte = new JLabel("Teinte Automatique par rapport au niveau d'ensoleillement");
         labelsituationteinte.setFont(new Font("Tahoma", Font.PLAIN, 18));
         labelsituationteinte.setBounds(258, 100, 700, 29);
