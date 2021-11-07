@@ -39,11 +39,6 @@ public class PageOfConfigWindow extends WelcomeFrame implements ActionListener {
         labelunite.setBounds(400, 200, 210, 29);
         p.add(labelunite);
 
-        /*labeltempintfiel = new JLabel("Temperature interieure");
-        labeltempintfiel.setFont(new Font("Tahoma", Font.PLAIN, 18));
-        labeltempintfiel.setBounds(58, 200, 210, 29);
-        p.add(labeltempintfiel);*/
-
         labelluminterne = new JLabel("Niveau d'ensoleillement");
         labelluminterne.setFont(new Font("Tahoma", Font.PLAIN, 18));
         labelluminterne.setBounds(58, 250, 210, 29);
@@ -54,15 +49,6 @@ public class PageOfConfigWindow extends WelcomeFrame implements ActionListener {
         labeltempextfiel.setBounds(358, 200, 210, 29);
         p.add(labeltempextfiel);
 
-        /*labeltempintfiel = new JLabel("25");
-        labeltempintfiel.setFont(new Font("Tahoma", Font.PLAIN, 20));
-        labeltempintfiel.setBounds(358, 200, 210, 29);
-        p.add(labeltempintfiel);*/
-
-       /* labelunite = new JLabel("degre");
-        labelunite.setFont(new Font("Tahoma", Font.PLAIN, 18));
-        labelunite.setBounds(400, 200, 210, 29);
-        p.add(labelunite);*/
 
         labelluminterne = new JLabel("0");
         labelluminterne.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -92,13 +78,7 @@ public class PageOfConfigWindow extends WelcomeFrame implements ActionListener {
         labelunite.setFont(new Font("Tahoma", Font.PLAIN, 18));
         labelunite.setBounds(400, 300, 210, 29);
         p.add(labelunite);
-//lum
 
-
-        /*labellumiexterne= new JLabel("Luminosite exterieure(lux)");
-        labellumiexterne.setFont(new Font("Tahoma", Font.PLAIN, 18));
-        labellumiexterne.setBounds(58, 300, 210, 29);
-        p.add(labellumiexterne);*/
 
         labelpteinte = new JLabel("Vitre teinte a ");
         labelpteinte.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -117,18 +97,6 @@ public class PageOfConfigWindow extends WelcomeFrame implements ActionListener {
         labelunite.setBounds(400, 350, 210, 29);
         p.add(labelunite);
 
-
-       /* labellumiexterne= new JLabel("0");
-        labellumiexterne.setFont(new Font("Tahoma", Font.PLAIN, 20));
-        labellumiexterne.setBounds(358, 300, 210, 29);
-        p.add(labellumiexterne);*/
-
-        /*labelinstructionR = new JLabel("Rafraichissez pour voir l'etat actuel des fenetres");
-        labelinstructionR.setFont(new Font("Tahoma", Font.PLAIN, 13));
-        labelinstructionR.setBounds(700, 400, 400, 29);
-        p.add(labelinstructionR);*/
-
-//Creation of the button
         bconf = new JButton("CONFIGURATION DE LA FENETRE");
         bconf.setBounds(250,20,650,30);
         bconf.setBackground(new Color(111,164,143));
@@ -185,6 +153,7 @@ public class PageOfConfigWindow extends WelcomeFrame implements ActionListener {
                  ResponseSocket response = socketUtility.sendRequest(request);
                     Map<String, Integer>  valeurActu = (Map<String,Integer>) response.getData();
 
+            System.out.println("Voici la réponse que le serveur à envoyer pour l'EtatActuel " + valeurActu);
             AlgoWindow algo = new AlgoWindow(valeurActu);
            ArrayList<String> listActu = algo.algoWindow();
 
@@ -197,9 +166,11 @@ public class PageOfConfigWindow extends WelcomeFrame implements ActionListener {
             String str = n.toString();
             labelluminterne.setText(str);
 
+
             Integer n2 = bright;
             String str2 = n2.toString();
             labelpteinte.setText(str2);
+
 
             Integer n5 = outside;
             String str5 = n5.toString();
