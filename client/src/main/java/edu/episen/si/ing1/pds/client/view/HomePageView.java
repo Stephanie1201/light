@@ -1,12 +1,12 @@
 package edu.episen.si.ing1.pds.client.view;
 
 
+        import com.fasterxml.jackson.core.JsonProcessingException;
         import edu.episen.si.ing1.pds.client.model.Company;
         import edu.episen.si.ing1.pds.client.socket.RequestSocket;
         import edu.episen.si.ing1.pds.client.socket.ResponseSocket;
         import edu.episen.si.ing1.pds.client.socket.SocketUtility;
         import edu.episen.si.ing1.pds.client.view.Mapping.RentedSpacesView;
-        import edu.episen.si.ing1.pds.client.view.SpaceRental.FirstPageRentCriteria;
 
         import javax.swing.*;
         import java.awt.*;
@@ -18,8 +18,8 @@ package edu.episen.si.ing1.pds.client.view;
 
 public class HomePageView extends WelcomeFrame implements ActionListener {
     private JPanel panel;
-    private JLabel j1,j2,j3,j4;
-    private JButton b1,b2,b3;
+    private JLabel j1,j2,j4;
+    private JButton b1,b2;
     private JComboBox jcb1;
     private SocketUtility socketUtility = new SocketUtility();
 
@@ -45,14 +45,16 @@ public class HomePageView extends WelcomeFrame implements ActionListener {
         j2.setFont(new Font("Arial", Font.PLAIN, 18));
         panel.add(j2);
 
-        RequestSocket requestSocket = new RequestSocket();
-        requestSocket.setRequest("company_list");
+        RequestSocket request= new RequestSocket();
+        request.setRequest("company_list");
         Map<String, Object> data = new HashMap<> ();
-        requestSocket.setData(data);
+        request.setData(data);
+        System.out.println("request n'est pas  null ici "+request);
 
+        ResponseSocket response = socketUtility.sendRequest(request);
+        List<Map> companyList = (List<Map>) response.getData();
+       System.out.println("companylist  "+companyList);
 
-        ResponseSocket response = socketUtility.sendRequest(requestSocket);
-        java.util.List<Map> companyList = (List<Map>) response.getData();
 
         jcb1 = new JComboBox(new Vector (companyList));
         jcb1.setBounds(410,130,200,20);
@@ -109,7 +111,7 @@ public class HomePageView extends WelcomeFrame implements ActionListener {
         Object source = e.getSource();
         if (source == b2) {
             this.dispose();
-            RentedSpacesView r = new RentedSpacesView();
+            RentedSpacesView r= new RentedSpacesView();
             r.setVisible(true);
 
         }
