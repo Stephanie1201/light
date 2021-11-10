@@ -26,9 +26,10 @@ public class blindConfig extends WelcomeFrame implements ActionListener {
     private JTextField debutstore,valeuraugmente, pourcentagestore,valeuraugmentestorepourcentage;
     private JLabel  labeldebutstore,labelsituationstore,labelpourcentagestore, labeluniteaugmentestorepourcentage,
             labelaugmentestorepourcentage,labelaugmente,labeldebutstoreecoute,labeluniteaugmente,pourcentagestoreunite;
+    private String equipment_id;
 
-
-    public blindConfig() {
+    public blindConfig(String equipment_id) {
+        this.equipment_id=equipment_id;
         panel = new JPanel();
         this.add(panel);
         panel.setLayout(null);
@@ -118,6 +119,7 @@ public class blindConfig extends WelcomeFrame implements ActionListener {
 //declaration of button
         bvalider = new JButton("Valider");
         bvalider.setBounds(800,380,92,25);
+        bvalider.setBackground(Color.GREEN);
         panel.add(bvalider);
         bvalider.addActionListener(this);
 
@@ -136,7 +138,7 @@ public class blindConfig extends WelcomeFrame implements ActionListener {
         Object source = eb.getSource();
         if(source == bsuivant ){
             this.dispose();
-            BrightnessWindowConfig tc = new BrightnessWindowConfig();
+            BrightnessWindowConfig tc = new BrightnessWindowConfig(equipment_id);
             tc.setVisible(true);
         }
         if(source == bretour){
@@ -214,7 +216,7 @@ public class blindConfig extends WelcomeFrame implements ActionListener {
     }
 
     public static void main (String[]args){
-        blindConfig bc = new blindConfig();
+        blindConfig bc = new blindConfig("equipment_id");
         bc.setVisible(true);
     }
 
