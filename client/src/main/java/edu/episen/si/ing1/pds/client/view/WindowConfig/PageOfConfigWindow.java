@@ -4,11 +4,15 @@ import edu.episen.si.ing1.pds.client.socket.RequestSocket;
 import edu.episen.si.ing1.pds.client.socket.ResponseSocket;
 import edu.episen.si.ing1.pds.client.socket.SocketUtility;
 import edu.episen.si.ing1.pds.client.view.WelcomeFrame;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class PageOfConfigWindow extends WelcomeFrame implements ActionListener {
@@ -18,8 +22,11 @@ public class PageOfConfigWindow extends WelcomeFrame implements ActionListener {
     private static final long serialVersionUID = 1L;
     private JPanel p;
     private JLabel labeltempextfiel,labelunite,labelfenetre,labelinstructionR,labeltempintfiel,labelpStore,labelluminterne,labellumiexterne,labelpteinte,labelinstruction;
+    private static final Logger logger = LoggerFactory.getLogger(PageOfConfigWindow.class.getName());
+    private String equipment_id;
 
-    public PageOfConfigWindow(){
+    public PageOfConfigWindow(String equipment_id){
+      this.equipment_id=equipment_id;
         p = new JPanel();
         this.add(p);
         p.setLayout(null);
@@ -111,6 +118,7 @@ public class PageOfConfigWindow extends WelcomeFrame implements ActionListener {
 
         braf = new JButton("Rafraichir");
         braf .setBounds(800,380,92,25);
+        braf.setBackground(Color.GREEN);
         p.add(braf );
         braf .addActionListener(this);
 
@@ -126,7 +134,7 @@ public class PageOfConfigWindow extends WelcomeFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        PageOfConfigWindow c = new PageOfConfigWindow();
+        PageOfConfigWindow c = new PageOfConfigWindow("equipment_id");
         c.setVisible(true);
     }
 
@@ -140,7 +148,7 @@ public class PageOfConfigWindow extends WelcomeFrame implements ActionListener {
         }
         if(source == br){
 
-            BrightnessWindowConfig tc = new BrightnessWindowConfig ();
+            BrightnessWindowConfig tc = new BrightnessWindowConfig (equipment_id);
             this.dispose();
             tc.setVisible(true);
         }
@@ -148,12 +156,17 @@ public class PageOfConfigWindow extends WelcomeFrame implements ActionListener {
             // creation of the request
             RequestSocket request = new RequestSocket();
             request.setRequest("EtatActuel");
+            Map<String, Object> data = new HashMap<>();
+            data.put("equipment_id",equipment_id);
+            logger.info("Id equipement envoyé:::::::::::::::::::::::: " + data);
+            request.setData(data);
+
 
             //receive response
                  ResponseSocket response = socketUtility.sendRequest(request);
                     Map<String, Integer>  valeurActu = (Map<String,Integer>) response.getData();
 
-            System.out.println("Voici la réponse que le serveur à envoyer pour l'EtatActuel " + valeurActu);
+            logger.info("Voici la réponse que le serveur à envoyer pour l'EtatActuel {} " + valeurActu);
             AlgoWindow algo = new AlgoWindow(valeurActu);
            ArrayList<String> listActu = algo.algoWindow();
 
