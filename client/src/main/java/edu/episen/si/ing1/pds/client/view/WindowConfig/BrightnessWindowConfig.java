@@ -27,8 +27,9 @@ public class BrightnessWindowConfig extends WelcomeFrame implements ActionListen
     private JLabel  labelluminterne,labelsituationteinte,labelpourcentageteinte, labeluniteaugmenteteintepourcentage,
             labelaugmenteteintepourcentage,labelaugmente,labelluminterneecoute,labeluniteaugmente,pourcentageteinteunite;
 
-
-    public BrightnessWindowConfig() {
+    private String equipment_id;
+    public BrightnessWindowConfig(String equipment_id) {
+        this.equipment_id=equipment_id;
         panel = new JPanel();
         this.add(panel);
         panel.setLayout(null);
@@ -116,6 +117,7 @@ public class BrightnessWindowConfig extends WelcomeFrame implements ActionListen
 //declaration of button
         bvalider = new JButton("Valider");
         bvalider.setBounds(800,380,92,25);
+        bvalider.setBackground(Color.GREEN);
         panel.add(bvalider);
         bvalider.addActionListener(this);
 
@@ -138,13 +140,13 @@ public class BrightnessWindowConfig extends WelcomeFrame implements ActionListen
 
 
                 this.dispose();
-                PageOfConfigWindow pc = new PageOfConfigWindow();
+                PageOfConfigWindow pc = new PageOfConfigWindow(equipment_id);
                 pc.setVisible(true);
 
             }
             if(source == bretour){
                 this.dispose();
-                blindConfig bc = new blindConfig();
+                blindConfig bc = new blindConfig(equipment_id);
                 bc.setVisible(true);
             }
             if(source == bvalider){
@@ -222,7 +224,7 @@ public class BrightnessWindowConfig extends WelcomeFrame implements ActionListen
     }
 
     public static void main (String[]args){
-        BrightnessWindowConfig bw = new BrightnessWindowConfig();
+        BrightnessWindowConfig bw = new BrightnessWindowConfig("equipment_id");
         bw.setVisible(true);
     }
 
