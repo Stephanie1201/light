@@ -105,6 +105,7 @@ public class HomePageView extends WelcomeFrame implements ActionListener {
 
         b2 = new JButton("Voir mes espaces");
         b2.setBounds(440,280,140,20);
+        b2.setBackground(Color.CYAN);
         b2.addActionListener(this);
         panel.add(b2);
 
