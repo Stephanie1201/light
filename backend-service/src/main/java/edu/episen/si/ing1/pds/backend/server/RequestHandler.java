@@ -408,13 +408,17 @@ public class RequestHandler {
 
         else if (requestName.equals("EtatActuel")) {
             ObjectMapper mapper = new ObjectMapper();
+            Map<String, Object> dataloaded = (Map<String, Object>) request.getData();
 
+            String equipment_id = (String) dataloaded.get("equipment_id");
+            logger.info("id de la fenetre reçu du serveur" + equipment_id);
             String sql = "SELECT blind_level_start,blind_percentage_start,blind_level_add, blind_percentage_add, opacity_level_start, opacity_percentage_start,opacity_level_add,opacity_percentage_add FRom CONFIGURATION";
 
-            String sql2 = "Select level_sunlight,outside_temperature from sensor";
+            String sql2 = "Select level_sunlight,outside_temperature from sensor WHERE equipment_id="+equipment_id;
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
 
+            logger.info("sql2 :{}",sql2);
             PreparedStatement statement2 = connection.prepareStatement(sql2);
             ResultSet rs2 = statement2.executeQuery();
 
