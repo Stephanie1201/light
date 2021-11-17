@@ -96,7 +96,7 @@ public class ListOfWindow extends WelcomeFrame implements ActionListener {
                 for (Map.Entry mapentry : ListFenetre.entrySet()) {
                     Map<String, Integer> map = (Map<String, Integer>) mapentry.getValue();
                     logger.info("Donnees Recuperees {} " + map);
-                    bconfiguration = new JButton(" Fenêtre " + map.get("equipment_id"));
+                    bconfiguration = new JButton(" " + map.get("equipment_id"));
 
                     y+=200;
                     bconfiguration.setBounds(x, y, 300, 50);
